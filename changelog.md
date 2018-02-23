@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.0] - 2018-02-23
+
+### Added
+
+- `default`, `money` and `percentage` Vue filters
+
+- `formatNumber` helper function
+
 ## [1.0.0] - 2018-02-21
 
 ### Added
