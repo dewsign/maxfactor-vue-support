@@ -1,7 +1,10 @@
+// Modules
 import FormatNumber from './Modules/FormatNumber'
 
+// Vue Mixins
 import FormMixin from './Mixins/FormMixin'
 
+// Vue Filters
 import DefaultFilter from './Filters/DefaultFilter'
 import MoneyFilter from './Filters/MoneyFilter'
 import PercentageFilter from './Filters/PercentageFilter'
