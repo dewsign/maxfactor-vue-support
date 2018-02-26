@@ -1,5 +1,3 @@
-import formatNumber from '../Modules/FormatNumber'
-
 /**
  * Format a given value to a monetary value.
  *
@@ -9,11 +7,12 @@ import formatNumber from '../Modules/FormatNumber'
 const Money = (value) => {
     if (value === null) return ''
 
-    return formatNumber(value)
+    return parseFloat(value)
         .toLocaleString('en-GB', {
             style: 'currency',
             currency: 'GBP',
             currencyDisplay: 'symbol',
+            minimumFractionDigits: 2,
         })
 }
 
