@@ -22,10 +22,15 @@ class AjaxStore {
             },
 
             getters: {
-                items: state => state.items,
-                hasItems: state => state.items.length !== 0,
-                loading: state => state.loading,
                 errors: state => state.errors,
+                items: state => state.items[state.locale] || [],
+                locale: state => state.locale,
+                loading: state => state.loading,
+                hasItems: (state) => {
+                    if (!state.items[state.locale]) return false
+
+                    return state.items[state.locale].length !== 0
+            },
             },
 
             mutations: {
