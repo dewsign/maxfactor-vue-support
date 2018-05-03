@@ -34,6 +34,11 @@ class AjaxStore {
             },
 
             mutations: {
+
+                setLocale: (state, locale) => {
+                    set(state, 'locale', locale)
+                },
+
                 updateItems: (state, items) => {
                     state.items = items
                 },
@@ -46,7 +51,12 @@ class AjaxStore {
             },
 
             actions: {
-                updateItems: ({ commit }) => {
+
+                setLocale: ({ commit }, locale = 'en') => {
+                    commit('setLocale', locale)
+                },
+
+                updateItems: ({ commit, state }) => {
                     commit('updateLoading', true)
 
                     axios({
