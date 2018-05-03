@@ -15,9 +15,10 @@ class AjaxStore {
             namespaced: true,
 
             state: {
-                items: [],
-                loading: false,
                 errors: [],
+                items: {},
+                locale: 'en',
+                loading: false,
             },
 
             getters: {
