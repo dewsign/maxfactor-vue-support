@@ -10,6 +10,10 @@ class AjaxStore {
         return this.getStore()
     }
 
+    getActionUrlForLocale(locale = 'en') {
+        return this.action.replace('__locale__', locale)
+    }
+
     getStore() {
         return {
             namespaced: true,
@@ -61,7 +65,7 @@ class AjaxStore {
 
                     axios({
                         method: this.method,
-                        url: this.action,
+                        url: this.getActionUrlForLocale(state.locale),
                     })
                         .then((response) => {
                             commit('updateLoading', false)
