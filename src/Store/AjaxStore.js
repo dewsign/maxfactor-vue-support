@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import axios from 'axios'
+import { set } from 'vue'
 
 class AjaxStore {
     constructor(options = {}) {
@@ -34,7 +35,7 @@ class AjaxStore {
                     if (!state.items[state.locale]) return false
 
                     return state.items[state.locale].length !== 0
-            },
+                },
             },
 
             mutations: {
@@ -44,14 +45,17 @@ class AjaxStore {
                 },
 
                 updateItems: (state, items) => {
-                    state.items = items
+                    set(state.items, state.locale, items)
                 },
+
                 updateLoading: (state, loading) => {
-                    state.loading = loading
+                    set(state, 'loading', loading)
                 },
+
                 updateErrors: (state, errors) => {
-                    state.errors = errors
+                    set(state, 'errors', errors)
                 },
+
             },
 
             actions: {
