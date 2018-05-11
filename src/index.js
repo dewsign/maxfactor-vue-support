@@ -1,6 +1,7 @@
 // Modules
 import FormatNumber from './Modules/FormatNumber'
 import AjaxStore from './Store/AjaxStore'
+import XModel from './Store/XModel'
 
 // Vue Mixins
 import FormMixin from './Mixins/FormMixin'
@@ -22,10 +23,11 @@ const Maxfactor = {
 export default Maxfactor
 
 export {
-    FormatNumber,
     AjaxStore,
-    FormMixin,
     DefaultFilter,
+    FormatNumber,
+    FormMixin,
     MoneyFilter,
     PercentageFilter,
+    XModel,
 }
