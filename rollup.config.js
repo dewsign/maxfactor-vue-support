@@ -8,6 +8,8 @@ export default {
     },
     external: [
         'vue',
+        'axios',
+        'lodash',
     ],
     plugins: [
         RollupPluginBabel(),
