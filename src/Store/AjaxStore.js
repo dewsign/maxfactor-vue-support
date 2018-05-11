@@ -2,6 +2,7 @@
 
 import axios from 'axios'
 import { set } from 'vue'
+import { find, findIndex } from 'lodash'
 
 class AjaxStore {
     constructor(options = {}) {
@@ -22,6 +23,7 @@ class AjaxStore {
             state: {
                 errors: [],
                 items: {},
+                selected: null,
                 locale: 'en',
                 loading: false,
             },
@@ -29,6 +31,8 @@ class AjaxStore {
             getters: {
                 errors: state => state.errors,
                 items: state => state.items[state.locale] || [],
+                selected: state => find(state.items[state.locale] || [], state.selected) || {},
+                selectedIndex: state => findIndex(state.items[state.locale] || [], state.selected),
                 locale: state => state.locale,
                 loading: state => state.loading,
                 hasItems: (state) => {
@@ -42,6 +46,14 @@ class AjaxStore {
 
                 setLocale: (state, locale) => {
                     set(state, 'locale', locale)
+                },
+
+                selectItem: (state, selection) => {
+                    set(state, 'selected', selection)
+                },
+
+                updateSelected: (state, { index, item }) => {
+                    set(state.items[state.locale], index, item)
                 },
 
                 updateItems: (state, items) => {
@@ -62,6 +74,17 @@ class AjaxStore {
 
                 setLocale: ({ commit }, locale = 'en') => {
                     commit('setLocale', locale)
+                },
+
+                selectItem: ({ commit }, selection = null) => {
+                    commit('selectItem', selection)
+                },
+
+                updateSelected: ({ commit, getters }, value) => {
+                    commit('updateSelected', {
+                        item: value,
+                        index: getters.selectedIndex,
+                    })
                 },
 
                 updateItems: ({ commit, state }) => {
