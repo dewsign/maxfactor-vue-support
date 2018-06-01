@@ -10,6 +10,7 @@ export default {
         'vue',
         'axios',
         'lodash',
+        'laravel-echo',
     ],
     plugins: [
         RollupPluginBabel(),
