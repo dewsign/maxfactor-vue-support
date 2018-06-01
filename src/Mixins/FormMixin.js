@@ -23,18 +23,29 @@ export default {
     },
 
     computed: {
+        formErrors: {
+            get() {
+                return Object.assign({}, this.form.errors, this.$root.form.errors)
+            },
+            set(newValue) {
+                this.$set(this.form, 'errors', newValue)
+                this.$set(this.$root.form, 'errors', newValue)
+            },
+        },
+
         formIsLoading: {
             get() {
                 return this.form.loading || this.$root.isLoading
             },
-            set(value) {
-                this.form.loading = value
+            set(newValue) {
+                this.$set(this.form, 'loading', newValue)
+                this.$set(this.$root.form, 'loading', newValue)
             },
         },
 
         formHasErrors: {
             get() {
-                return Object.keys(this.form.errors).length > 0
+                return Object.keys(this.formErrors).length > 0
             },
         },
 
@@ -63,22 +74,22 @@ export default {
         },
 
         clearFormErrors() {
-            this.$set(this.form, 'errors', {})
+            this.formErrors = {}
         },
 
         setFormErrors(response) {
             if (!response) return
 
-            this.$set(this.form, 'errors', response.data.errors)
+            this.$set(this, 'formErrors', response.data.errors)
         },
 
         formError(field) {
-            if (!this.form.errors) return false
+            if (!this.formErrors) return false
 
-            if (typeof this.form.errors[field] === 'string') return this.form.errors[field]
-            if (typeof this.form.errors[field] === 'undefined') return ''
+            if (typeof this.formErrors[field] === 'string') return this.formErrors[field]
+            if (typeof this.formErrors[field] === 'undefined') return ''
 
-            return this.form.errors[field][0]
+            return this.formErrors[field][0]
         },
 
         formFieldValid(element) {
@@ -89,6 +100,7 @@ export default {
             if (!response.status) return
 
             this.$set(this.form, 'status', response.status)
+            this.$set(this.$root.form, 'status', response.status)
         },
 
         getForm(formTarget, formData, formRef = 'form') {
