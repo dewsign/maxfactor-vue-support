@@ -8,6 +8,7 @@ export default {
     },
     external: [
         'vue',
+        'axios',
     ],
     plugins: [
         RollupPluginBabel(),
