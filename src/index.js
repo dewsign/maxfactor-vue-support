@@ -1,6 +1,7 @@
 // Modules
 import FormatNumber from './Modules/FormatNumber'
 import AjaxStore from './Store/AjaxStore'
+import CmsConnector from './Store/CmsConnector'
 import XModel from './Store/XModel'
 
 // Vue Mixins
@@ -24,6 +25,7 @@ export default Maxfactor
 
 export {
     AjaxStore,
+    CmsConnector,
     DefaultFilter,
     FormatNumber,
     FormMixin,
