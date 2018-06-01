@@ -4,6 +4,9 @@ import axios from 'axios'
 import { set } from 'vue'
 import { find, findIndex } from 'lodash'
 
+/**
+ * TODO: Move into AjaxStore package
+*/
 class AjaxStore {
     constructor(options = {}) {
         this.action = options.action || ''
@@ -30,15 +33,31 @@ class AjaxStore {
 
             getters: {
                 errors: state => state.errors,
-                items: state => state.items[state.locale] || [],
-                selected: state => find(state.items[state.locale] || [], state.selected) || {},
-                selectedIndex: state => findIndex(state.items[state.locale] || [], state.selected),
+                /**
+                 * Return the items within this store module for the current language
+                 */
+                items: (state) => {
+                    /**
+                     * We need to check if the language objects already exists in the array and
+                     * create a new Object if it doesn't to maintain Vue reactivity.
+                     */
+                    if (!state.items[state.locale]) {
+                        const newLanguage = {}
+                        newLanguage[state.locale] = []
+
+                        set(state, 'items', Object.assign(newLanguage, state.items))
+                    }
+
+                    return state.items[state.locale]
+                },
+                selected: ({ items, locale, selected }) => find(items[locale], selected) || {},
+                selectedIndex: ({ items, locale, selected }) => findIndex(items[locale], selected),
                 locale: state => state.locale,
                 loading: state => state.loading,
-                hasItems: (state) => {
-                    if (!state.items[state.locale]) return false
+                hasItems: ({ items, locale }) => {
+                    if (!items[locale]) return false
 
-                    return state.items[state.locale].length !== 0
+                    return items[locale].length !== 0
                 },
             },
 
@@ -52,12 +71,24 @@ class AjaxStore {
                     set(state, 'selected', selection)
                 },
 
-                updateSelected: (state, { index, item }) => {
-                    set(state.items[state.locale], index, item)
+                createItem: ({ items }, { locale, data }) => {
+                    items[locale].push(data)
                 },
 
-                updateItems: (state, items) => {
-                    set(state.items, state.locale, items)
+                updateItem: ({ items }, { index, item, locale }) => {
+                    set(items[locale], index, item)
+                },
+
+                deleteItem: ({ items }, { locale, data }) => {
+                    set(items, locale, items[locale].filter(({ id }) => id !== data.id))
+                },
+
+                updateSelected: ({ items, locale }, { index, item }) => {
+                    set(items[locale], index, item)
+                },
+
+                updateItems: ({ items, locale }, newItems) => {
+                    set(items, locale, newItems)
                 },
 
                 updateLoading: (state, loading) => {
@@ -102,6 +133,28 @@ class AjaxStore {
                             commit('updateLoading', false)
                             commit('updateErrors', error)
                         })
+                },
+
+                itemUpdated: ({ commit, state }, { locale, data }) => {
+                    const { id } = data
+
+                    commit('updateItem', {
+                        item: data,
+                        index: findIndex(state.items[locale], { id }),
+                        locale,
+                    })
+                },
+
+                itemCreated: ({ commit }, { locale, data }) => {
+                    commit('createItem', { locale, data })
+                },
+
+                itemDeleted: ({ commit }, { locale, data }) => {
+                    commit('deleteItem', { locale, data })
+                },
+
+                updateLoading: ({ commit }, loading) => {
+                    commit('updateLoading', loading)
                 },
             },
         }
