@@ -66,6 +66,10 @@ export default {
             this.$set(this.form, 'errors', {})
         },
 
+        clearFieldErrors(field) {
+            this.$delete(this.form.errors, field)
+        },
+
         setFormErrors(response) {
             if (!response) return
 
