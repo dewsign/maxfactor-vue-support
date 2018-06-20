@@ -25,10 +25,15 @@ export default {
     computed: {
         formErrors: {
             get() {
-                return Object.assign({}, this.form.errors, this.$root.form.errors)
+                return this.$root.form
+                    ? Object.assign({}, this.form.errors, this.$root.form.errors)
+                    : Object.assign({}, this.form.errors)
             },
             set(newValue) {
                 this.$set(this.form, 'errors', newValue)
+
+                if (!this.$root.form) return
+
                 this.$set(this.$root.form, 'errors', newValue)
             },
         },
@@ -39,6 +44,9 @@ export default {
             },
             set(newValue) {
                 this.$set(this.form, 'loading', newValue)
+
+                if (!this.$root.form) return
+
                 this.$set(this.$root.form, 'loading', newValue)
             },
         },
@@ -100,6 +108,9 @@ export default {
             if (!response.status) return
 
             this.$set(this.form, 'status', response.status)
+
+            if (!this.$root.form) return
+
             this.$set(this.$root.form, 'status', response.status)
         },
 
