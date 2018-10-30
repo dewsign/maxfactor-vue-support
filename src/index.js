@@ -1,5 +1,6 @@
 // Modules
 import FormatNumber from './Modules/FormatNumber'
+import DateOrdinal from './Modules/DateOrdinal'
 import AjaxStore from './Store/AjaxStore'
 
 // Vue Mixins
@@ -23,6 +24,7 @@ export default Maxfactor
 
 export {
     FormatNumber,
+    DateOrdinal,
     AjaxStore,
     FormMixin,
     DefaultFilter,
