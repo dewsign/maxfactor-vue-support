@@ -108,14 +108,14 @@ export default {
             return this.formError(element) ? 'true' : 'false'
         },
 
-        setFormStatus(response) {
-            if (!response.status) return
+        setFormStatus({ status }) {
+            if (!status) return
 
-            this.$set(this.form, 'status', response.status)
+            this.$set(this.form, 'status', status)
 
             if (!this.$root.form) return
 
-            this.$set(this.$root.form, 'status', response.status)
+            this.$set(this.$root.form, 'status', status)
         },
 
         getForm(formTarget, formData, formRef = 'form') {
